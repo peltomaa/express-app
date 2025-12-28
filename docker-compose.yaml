@@ -1,0 +1,18 @@
+services:
+  app:
+    image: toukop/express-app:latest
+    ports:
+      - 8080:8080
+    container_name: express-app
+    labels:
+      - "com.centurylinklabs.watchtower.enable=true"
+
+  watchtower:
+    image: containrrr/watchtower
+    container_name: watchtower
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    environment:
+      - WATCHTOWER_LABEL_ENABLE=true
+      - WATCHTOWER_POLL_INTERVAL=60
+    command: express-app
